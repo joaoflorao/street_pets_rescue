@@ -1,0 +1,29 @@
+body {
+    background: #4389d2;
+    height: 100vh;
+}
+
+.login-container,
+.register-container {
+    max-width: 400px;
+    margin-top: 0;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.input-group-text {
+    cursor: pointer;
+}
+
+.flash-messages{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+.flash-messages .col{
+    position: absolute;
+}

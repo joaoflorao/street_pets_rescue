@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="register-container">
+        <h3 class="text-center mb-4">Cadastre-se</h3>
+            <form action="/user/register" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">
+                        Nome completo:
+                    </label>
+                    <input type="text" class="form-control" id="name" name="nFullName" autofocus required>
+                </div>
+                <div class="mb-3">
+                    <label for="birth_date" class="form-label">
+                        Data de Nascimento:
+                    </label>
+                    <input type="date" class="form-control" id="birth_date" name="nBirthDate"
+                           oninput="checkUserAge()" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        Email:
+                    </label>
+                    <input type="email" class="form-control" id="email" name="nEmail" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Senha
+                    </label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="nPassword"
+                               oninput="checkPasswordIsValid()" required>
+                        <span class="input-group-text" id="togglePassword"
+                              onclick="togglePasswordVisibility('togglePassword', 'password', 'toggleIcon')">
+                            <i class="fa-solid fa-eye" id="toggleIcon"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">
+                        Confirme a senha:
+                    </label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirm_password" name="nConfirmPassword"
+                               oninput="checkPasswordIsValid()" required>
+                        <span class="input-group-text" id="toggleConfirmPassword"
+                              onclick="togglePasswordVisibility('toggleConfirmPassword', 'confirm_password', 'toggleConfirmIcon')">
+                            <i class="fa-solid fa-eye" id="toggleConfirmIcon"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Register
+                    </button>
+                </div>
+                <div class="text-center mt-3">
+                    <small>Já tem uma conta? <a href="/login">Login</a></small>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

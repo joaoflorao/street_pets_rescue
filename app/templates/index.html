@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container card-container mt-5">
+        <div class="row">
+            <!-- Card 1 -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Lost Animal 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Bella</h5>
+                        <p class="card-text">Bella is a 3-year-old Labrador. She was last seen near the park on Elm Street.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Lost Animal 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Max</h5>
+                        <p class="card-text">Max is a 5-year-old tabby cat. He was last seen in the Oakwood neighborhood.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Lost Animal 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Charlie</h5>
+                        <p class="card-text">Charlie is a 2-year-old Golden Retriever. He was last seen near the downtown area.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="btn btn-primary">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add more cards as needed -->
+    </div>
+{% endblock %}
