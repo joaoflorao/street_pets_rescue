@@ -51,4 +51,7 @@ function checkUserAge(){
     if (userAge < 18){
         elementBibirthDate.setCustomValidity('Você deve ter no mínimo 18 anos.');
     }
+    else{
+        elementBibirthDate.setCustomValidity('');
+    }
 }
