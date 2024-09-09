@@ -27,3 +27,8 @@ body {
 .flash-messages .col{
     position: absolute;
 }
+
+.required-field::after{
+    content: " *";
+    color: #9C1A1C;
+}

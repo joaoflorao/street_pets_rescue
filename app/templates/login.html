@@ -1,3 +1,4 @@
+<title>Login</title>
 {% extends 'base.html' %}
 
 {% block conteudo %}
@@ -9,16 +10,18 @@
             <form action="/user/login" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">
-                        Email:
+                        Email
                     </label>
-                    <input type="email" class="form-control" id="email" name="nEmail" autofocus required>
+                    <input type="email" class="form-control" id="email" name="nEmail"
+                           placeholder="Digite seu email" autofocus required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">
                         Senha
                     </label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="nPassword" required>
+                        <input type="password" class="form-control" id="password" name="nPassword"
+                               placeholder="Digite sua senha" required>
                         <span class="input-group-text" id="togglePassword"
                               onclick="togglePasswordVisibility('togglePassword', 'password', 'toggleIcon')">
                             <i class="fa-solid fa-eye" id="toggleIcon"></i>

@@ -1,36 +1,41 @@
+<title>Cadastre-se</title>
 {% extends 'base.html' %}
 
 {% block conteudo %}
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="register-container">
-        <h3 class="text-center mb-4">Cadastre-se</h3>
+        <h3 class="text-center mb-4">
+            Cadastre-se
+        </h3>
             <form action="/user/register" method="post">
                 <div class="mb-3">
-                    <label for="name" class="form-label">
-                        Nome completo:
+                    <label for="name" class="form-label required-field">
+                        Nome completo
                     </label>
-                    <input type="text" class="form-control" id="name" name="nFullName" autofocus required>
+                    <input type="text" class="form-control" id="name" name="nFullName"
+                           placeholder="Digite seu nome completo" autofocus required>
                 </div>
                 <div class="mb-3">
-                    <label for="birth_date" class="form-label">
-                        Data de Nascimento:
+                    <label for="birth_date" class="form-label required-field">
+                        Data de Nascimento
                     </label>
                     <input type="date" class="form-control" id="birth_date" name="nBirthDate"
                            oninput="checkUserAge()" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">
-                        Email:
+                    <label for="email" class="form-label required-field">
+                        Email
                     </label>
-                    <input type="email" class="form-control" id="email" name="nEmail" required>
+                    <input type="email" class="form-control" id="email" name="nEmail"
+                           placeholder="Digite seu email" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">
+                    <label for="password" class="form-label required-field">
                         Senha
                     </label>
                     <div class="input-group">
                         <input type="password" class="form-control" id="password" name="nPassword"
-                               oninput="checkPasswordIsValid()" required>
+                               placeholder="Crie uma senha" oninput="checkPasswordIsValid()" required>
                         <span class="input-group-text" id="togglePassword"
                               onclick="togglePasswordVisibility('togglePassword', 'password', 'toggleIcon')">
                             <i class="fa-solid fa-eye" id="toggleIcon"></i>
@@ -38,12 +43,12 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="confirm_password" class="form-label">
-                        Confirme a senha:
+                    <label for="confirm_password" class="form-label required-field">
+                        Confirme a senha
                     </label>
                     <div class="input-group">
                         <input type="password" class="form-control" id="confirm_password" name="nConfirmPassword"
-                               oninput="checkPasswordIsValid()" required>
+                               placeholder="Digite a senha novamente" oninput="checkPasswordIsValid()" required>
                         <span class="input-group-text" id="toggleConfirmPassword"
                               onclick="togglePasswordVisibility('toggleConfirmPassword', 'confirm_password', 'toggleConfirmIcon')">
                             <i class="fa-solid fa-eye" id="toggleConfirmIcon"></i>
