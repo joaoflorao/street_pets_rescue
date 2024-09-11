@@ -13,18 +13,10 @@ def login():
     email = data.get("nEmail")
     password = data.get("nPassword")
 
-    user_login = user_service.login_user(email, password)
-    email_is_valid = user_login[0]
-    if not email_is_valid:
-        flash("Usuário não cadastrado!", "warning")
-        return redirect(url_for("user.login"))
+    user = user_service.check_user_exists(email)
+    if user and user.check_password(user.password, password):
+        flash("Usuário logado!", "success")
 
-    password_is_valid = user_login[1]
-    if not password_is_valid:
-        flash("Usuário ou senha incorretos!", "warning")
-        return redirect(url_for("user.login"))
-
-    flash("Usuário logado!", "success")
     return render_template("login.html")
 
 
