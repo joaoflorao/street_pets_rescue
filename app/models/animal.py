@@ -26,13 +26,25 @@ class Animal(Base):
     rescue_date = Column(Date)
     registration_date = Column(Date)
 
-    def __init__(self, name, animal_type, characteristics, health_needs, continuous_treatments, special_needs):
+    def __init__(
+        self,
+        name,
+        animal_type,
+        characteristics,
+        health_needs,
+        continuous_treatments,
+        special_needs,
+        status,
+        rescue_date,
+    ):
         self.name = name
         self.animal_type = animal_type
         self.characteristics = characteristics
         self.health_needs = health_needs
         self.continuous_treatments = continuous_treatments
         self.special_needs = special_needs
+        self.status = AnimalStatus(status)
+        self.rescue_date = rescue_date
         self.registration_date = datetime.now()
 
     users = relationship("User", secondary="user_animal", back_populates="animals")
