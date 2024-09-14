@@ -1,31 +1,30 @@
-from sqlalchemy import Table, Column, Integer, String, Date, ForeignKey
-from sqlalchemy.orm import relationship
-from . import Base
-import bcrypt
+from app.services import db
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from datetime import datetime
+import bcrypt
 
 
-user_animal_table = Table(
+user_animal_table = db.Table(
     "user_animal",
-    Base.metadata,
-    Column("user_id", Integer, ForeignKey("user.id"), primary_key=True),
-    Column("animal_id", Integer, ForeignKey("animal.id"), primary_key=True),
+    db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True),
+    db.Column("animal_id", db.Integer, db.ForeignKey("animal.id"), primary_key=True),
 )
 
 
-class User(Base):
+class User(db.Model, UserMixin):
     __tablename__ = "user"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    phone_number = Column(String)
-    email = Column(String)
-    password = Column(String)
-    address = Column(String)
-    registration_date = Column(Date)
-    birth_date = Column(Date)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    phone_number = db.Column(db.String)
+    email = db.Column(db.String)
+    password = db.Column(db.String)
+    address = db.Column(db.String)
+    registration_date = db.Column(db.Date)
+    birth_date = db.Column(db.Date)
 
-    animals = relationship("Animal", secondary="user_animal", back_populates="users")
+    animals = db.relationship("Animal", secondary="user_animal", back_populates="users")
 
     def __init__(self, name, email, password, birth_date):
         self.name = name

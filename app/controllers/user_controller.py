@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask_login import login_user, login_required, logout_user
 from app import user_service
 
 bp = Blueprint("user", __name__)
@@ -15,9 +16,17 @@ def login():
 
     user = user_service.check_user_exists(email)
     if user and user.check_password(user.password, password):
-        flash("Usuário logado!", "success")
+        login_user(user)
+        return redirect(url_for("index"))
 
     return render_template("login.html")
+
+
+@bp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('user.login'))
 
 
 @bp.route("/register", methods=["GET", "POST"])

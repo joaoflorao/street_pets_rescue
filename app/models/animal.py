@@ -1,8 +1,8 @@
-from sqlalchemy import Table, Column, Integer, String, Date, ForeignKey, Enum
-from sqlalchemy.orm import relationship
-from . import Base
-import enum
+from app.services import db
+from flask_login import UserMixin
 from datetime import datetime
+import enum
+from sqlalchemy import Enum as SqlEnum
 
 
 class AnimalStatus(enum.Enum):
@@ -12,19 +12,19 @@ class AnimalStatus(enum.Enum):
     deceased = "Falecido"
 
 
-class Animal(Base):
+class Animal(db.Model):
     __tablename__ = "animal"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    animal_type = Column(String)
-    characteristics = Column(String)
-    health_needs = Column(String)
-    continuous_treatments = Column(String)
-    special_needs = Column(String)
-    status = Column(Enum(AnimalStatus))
-    rescue_date = Column(Date)
-    registration_date = Column(Date)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    animal_type = db.Column(db.String)
+    characteristics = db.Column(db.String)
+    health_needs = db.Column(db.String)
+    continuous_treatments = db.Column(db.String)
+    special_needs = db.Column(db.String)
+    status = db.Column(SqlEnum(AnimalStatus))
+    rescue_date = db.Column(db.Date)
+    registration_date = db.Column(db.Date)
 
     def __init__(
         self,
@@ -47,4 +47,4 @@ class Animal(Base):
         self.rescue_date = rescue_date
         self.registration_date = datetime.now()
 
-    users = relationship("User", secondary="user_animal", back_populates="animals")
+    users = db.relationship("User", secondary="user_animal", back_populates="animals")

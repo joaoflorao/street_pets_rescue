@@ -1,10 +1,12 @@
 from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask_login import login_required
 from app import animal_service
 
 bp = Blueprint("animal", __name__)
 
 
 @bp.route("/register", methods=["GET", "POST"])
+@login_required
 def register():
     status_list = animal_service.get_status_list()
     if request.method == "GET":
