@@ -13,3 +13,7 @@ class UserRepository:
         self.session.add(new_user)
         self.session.commit()
         return new_user
+
+    @staticmethod
+    def get_user_by_id(user_id):
+        return User.query.get(int(user_id))
