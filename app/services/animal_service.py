@@ -7,3 +7,6 @@ class AnimalService:
 
     def get_status_list(self):
         return self.animal_repository.get_status_list()
+
+    def get_animals_list(self):
+        return self.animal_repository.get_animals_list()

@@ -1,5 +1,5 @@
 body {
-    background: #4389d2;
+    background: #ffffff;
     height: 100vh;
 }
 
@@ -31,4 +31,11 @@ body {
 .required-field::after{
     content: " *";
     color: #9C1A1C;
+}
+
+.animal-card, .login-container{
+    background-color: #dedfe1;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
 }

@@ -7,91 +7,89 @@
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
 </style>
 {% extends 'base.html' %}
 
 {% block conteudo %}
+
+{% include 'navbar.html' %}
 <div class="card">
-        <div class="card-header text-center">
-            <h2>Cadastro de Animal</h2>
-        </div>
-        <div class="card-body">
-            <form action="/animal/register" method="post">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="name" class="form-label required-field">
-                            Nome do Animal
-                        </label>
-                        <input type="text" class="form-control" id="name" name="nAnimalName"
-                               placeholder="Digite o nome do animal" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="animal_type" class="form-label required-field">
-                            Tipo de Animal
-                        </label>
-                        <input type="text" class="form-control" id="animal_type" name="nAnimalType"
-                               placeholder="Ex: Cachorro, Gato" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="characteristics" class="form-label required-field">
-                        Características
+    <div class="card-header text-center">
+        <h2>Cadastro de Animal</h2>
+    </div>
+    <div class="card-body animal-card">
+        <form action="/animal/register" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name" class="form-label required-field">
+                        Nome do Animal
                     </label>
-                    <textarea class="form-control" id="characteristics" name="nCharacteristics" rows="3"
-                              placeholder="Descreva as características do animal" required></textarea>
+                    <input type="text" class="form-control" id="name" name="nAnimalName"
+                           placeholder="Digite o nome do animal" required>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="health_needs">
-                            Necessidades de Saúde
-                        </label>
-                        <textarea class="form-control" id="health_needs" name="nHealthNeeds" rows="2"
-                                  placeholder="Necessidades médicas do animal"></textarea>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="continuous_treatments">
-                            Tratamentos Contínuos
-                        </label>
-                        <textarea class="form-control" id="continuous_treatments" name="nContinuousTreatments" rows="2"
-                                  placeholder="Tratamentos que o animal necessita"></textarea>
-                    </div>
+                <div class="form-group col-md-6">
+                    <label for="animal_type" class="form-label required-field">
+                        Tipo de Animal
+                    </label>
+                    <input type="text" class="form-control" id="animal_type" name="nAnimalType"
+                           placeholder="Ex: Cachorro, Gato" required>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="special_needs">
-                            Necessidades Especiais
-                        </label>
-                        <textarea class="form-control" id="special_needs" name="nSpecialNeeds" rows="2"
-                                  placeholder="Descreva as necessidades especiais"></textarea>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="status" class="form-label required-field">
-                            Status
-                        </label>
-                        <select class="form-control" id="status" name="nAnimalStatus" required>
-                            <option value="" selected disabled>Selecione o status do animal...</option>
+            </div>
+            <div class="form-group">
+                <label for="characteristics" class="form-label required-field">
+                    Características
+                </label>
+                <textarea class="form-control" id="characteristics" name="nCharacteristics" rows="3"
+                          placeholder="Descreva as características do animal" required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="health_needs">
+                        Necessidades de Saúde
+                    </label>
+                    <textarea class="form-control" id="health_needs" name="nHealthNeeds" rows="2"
+                              placeholder="Necessidades médicas do animal"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="continuous_treatments">
+                        Tratamentos Contínuos
+                    </label>
+                    <textarea class="form-control" id="continuous_treatments" name="nContinuousTreatments" rows="2"
+                              placeholder="Tratamentos que o animal necessita"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="special_needs">
+                        Necessidades Especiais
+                    </label>
+                    <textarea class="form-control" id="special_needs" name="nSpecialNeeds" rows="2"
+                              placeholder="Descreva as necessidades especiais"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="status" class="form-label required-field">
+                        Status
+                    </label>
+                    <select class="form-control" id="status" name="nAnimalStatus" required>
+                        <option value="" selected disabled>Selecione o status do animal...</option>
                             {% for status in status_list %}
                                 <option value="{{ status.value }}">{{ status.value }}</option>
                             {% endfor %}
-                        </select>
-                    </div>
+                    </select>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="rescue_date" class="form-label required-field">
-                            Data do Resgate
-                        </label>
-                        <input type="date" class="form-control" id="rescue_date" name="nRescueDate" required>
-                    </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="rescue_date" class="form-label required-field">
+                        Data do Resgate
+                    </label>
+                    <input type="date" class="form-control" id="rescue_date" name="nRescueDate" required>
                 </div>
-                <button type="submit" class="btn btn-success btn-block mt-2">
-                    Cadastrar Animal
-                </button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-2">
+                Cadastrar Animal
+            </button>
+        </form>
     </div>
+</div>
 {% endblock %}

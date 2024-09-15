@@ -13,3 +13,6 @@ class AnimalRepository:
 
     def get_status_list(self):
         return AnimalStatus
+
+    def get_animals_list(self):
+        return Animal.query.all()

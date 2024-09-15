@@ -17,8 +17,9 @@ def login():
     user = user_service.check_user_exists(email)
     if user and user.check_password(user.password, password):
         login_user(user)
-        return redirect(url_for("index"))
+        return redirect(url_for("animal.animals_list"))
 
+    flash("Usuário ou senha incorretos!", "danger")
     return render_template("login.html")
 
 

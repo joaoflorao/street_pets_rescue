@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% include 'navbar.html' %}
+
+    <div class="container card-container mt-5">
+        <div class="row">
+            {% for animal in animals_list %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card animal-card">
+                        <img src="{ animal.image_url }" class="card-img-top" alt="Lost Animal">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ animal.name }}</h5>
+                            <p class="card-text">{{ animal.characteristics }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-primary">More Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+                    <div class="row"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

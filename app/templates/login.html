@@ -2,43 +2,43 @@
 {% extends 'base.html' %}
 
 {% block conteudo %}
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="login-container">
-            <h3 class="text-center mb-4">
-                Login
-            </h3>
-            <form action="/user/login" method="post">
-                <div class="mb-3">
-                    <label for="email" class="form-label">
-                        Email
-                    </label>
-                    <input type="email" class="form-control" id="email" name="nEmail"
-                           placeholder="Digite seu email" autofocus required>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="login-container">
+        <h3 class="text-center mb-4">
+            Login
+        </h3>
+        <form action="/user/login" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    Email
+                </label>
+                <input type="email" class="form-control" id="email" name="nEmail"
+                       placeholder="Digite seu email" autofocus required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    Senha
+                </label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="nPassword"
+                           placeholder="Digite sua senha" required>
+                    <span class="input-group-text" id="togglePassword"
+                          onclick="togglePasswordVisibility('togglePassword', 'password', 'toggleIcon')">
+                        <i class="fa-solid fa-eye" id="toggleIcon"></i>
+                    </span>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">
-                        Senha
-                    </label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="nPassword"
-                               placeholder="Digite sua senha" required>
-                        <span class="input-group-text" id="togglePassword"
-                              onclick="togglePasswordVisibility('togglePassword', 'password', 'toggleIcon')">
-                            <i class="fa-solid fa-eye" id="toggleIcon"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Entrar
-                    </button>
-                </div>
-                <div class="text-center mt-3">
-                    <small>
-                        Não tem uma conta? <a href="/user/register">Cadastre-se</a>
-                    </small>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-block">
+                    Entrar
+                </button>
+            </div>
+            <div class="text-center mt-3">
+                <small>
+                    Não tem uma conta? <a href="/user/register">Cadastre-se</a>
+                </small>
+            </div>
+        </form>
     </div>
+</div>
 {% endblock %}

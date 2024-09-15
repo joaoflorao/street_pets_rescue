@@ -7,8 +7,3 @@ from flask_login import login_required
 @app.route("/login")
 def login():
     return render_template("login.html")
-
-@app.route("/index")
-@login_required
-def index():
-    return render_template("index.html")
