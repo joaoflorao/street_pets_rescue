@@ -14,5 +14,14 @@ class AnimalRepository:
     def get_status_list(self):
         return AnimalStatus
 
-    def get_animals_list(self):
-        return Animal.query.all()
+    def get_animals_list(self, status):
+        return self.session.query(Animal).filter_by(status=status).all()
+
+    def get_animal_by_id(self, animal_id):
+        return self.session.query(Animal).filter_by(id=animal_id).first()
+
+    def update_animal_status(self, animal_id, status):
+        animal = self.get_animal_by_id(animal_id)
+        animal.status = AnimalStatus(status)
+        self.session.commit()
+        return animal

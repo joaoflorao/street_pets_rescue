@@ -8,3 +8,6 @@ class UserService:
 
     def create_user(self, *args):
         return self.user_repository.create_user(*args)
+
+    def adopt_animal(self, user, animal):
+        return self.user_repository.adopt_animal(user, animal)

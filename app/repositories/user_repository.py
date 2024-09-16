@@ -14,6 +14,11 @@ class UserRepository:
         self.session.commit()
         return new_user
 
+    def adopt_animal(self, user, animal):
+        user.animals.append(animal)
+        self.session.commit()
+        return user.animals
+
     @staticmethod
     def get_user_by_id(user_id):
         return User.query.get(int(user_id))

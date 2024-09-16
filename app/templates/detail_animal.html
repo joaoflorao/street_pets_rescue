@@ -1,0 +1,70 @@
+<title>Detalhes do Animal</title>
+{% extends 'base.html' %}
+
+{% block conteudo %}
+{% include 'navbar.html' %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">
+                Detalhes do Animal
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <img src="{{ animal.image_url }}" alt="Imagem do Animal" class="img-fluid rounded" style="max-height: 300px;">
+            </div>
+
+            <p class="card-text">
+                <strong>Nome:</strong>
+                <span id="animal-name">{{ animal.name }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Tipo:</strong>
+                <span id="animal-type">{{ animal.animal_type }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Status:</strong>
+                <span id="animal-status">{{ animal.status.value }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Características:</strong>
+                <span id="animal-characteristics">{{ animal.characteristics }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Necessidades de Saúde:</strong>
+                <span id="animal-health-needs">{{ animal.health_needs }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Tratamentos Contínuos:</strong>
+                <span id="animal-treatments">{{ animal.continuous_treatments }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Necessidades Especiais:</strong>
+                <span id="animal-special-needs">{{ animal.special_needs }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Data de Resgate:</strong>
+                <span id="animal-rescue-date">{{ animal.rescue_date.strftime('%d/%m/%Y') }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Data de Registro:</strong>
+                <span id="animal-registration-date">{{ animal.registration_date.strftime('%d/%m/%Y') }}</span>
+            </p>
+        </div>
+        <form action="/animal/adopt" method="POST">
+            <div class="card-footer text-right">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/animal/list'">
+                    Voltar
+                </button>
+                {% if animal.status.value == "Disponivel" %}
+                <button type="submit" class="btn btn-success mr-2">
+                    Adotar
+                </button>
+                {% endif %}
+                <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

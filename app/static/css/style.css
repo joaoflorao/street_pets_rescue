@@ -22,6 +22,7 @@ body {
     display: flex;
     justify-content: center;
     width: 100vw;
+    z-index: 1000;
 }
 
 .flash-messages .col{
@@ -33,7 +34,7 @@ body {
     color: #9C1A1C;
 }
 
-.animal-card, .login-container{
+.animal-card, .login-container, .register-container{
     background-color: #dedfe1;
     border: 1px solid #dee2e6;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
