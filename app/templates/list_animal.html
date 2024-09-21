@@ -4,27 +4,178 @@
 
     {% include 'navbar.html' %}
 
-    <div class="container card-container mt-5">
-        <div class="row">
-            {% for animal in animals_list %}
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                    <div class="card animal-card">
-                        <img src="{ animal.image_url }" class="card-img-top" alt="Lost Animal">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ animal.name }}</h5>
-                            <p class="card-text">{{ animal.characteristics }}</p>
+    <div class="container mt-5">
+        <!-- Filtro Expandível -->
+        <div class="card mb-4">
+            <div class="card-header" id="filtro-header">
+                <h5 class="mb-0 d-flex justify-content-end">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filtroContent" aria-expanded="false" aria-controls="filtroContent">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
+                        </svg>
+                        Filtrar por
+                    </button>
+                </h5>
+            </div>
+            <div id="filtroContent" class="collapse">
+                <div class="card-body">
+                    <form method="post" action="/animal/list">
+                        <div class="row">
+                        <!-- Espécie -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="especie">
+                                Espécie
+                            </label>
+                            <div id="especie">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="cachorro">Cachorro</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nSpecies" id="cachorro" value="cachorro">
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="gato">Gato</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nSpecies" id="gato" value="gato">
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer text-center">
-                            <a href="/animal/detail/{{ animal.id }}" class="btn btn-primary">
-                                Conhecer
-                            </a>
+                        <!-- Porte -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="porte">
+                                Porte
+                            </label>
+                            <select id="porte" name="nSize" class="form-control">
+                                <option value="pequeno">Pequeno</option>
+                                <option value="medio">Médio</option>
+                                <option value="grande">Grande</option>
+                            </select>
+                        </div>
+                        <!-- Sexo -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="sexo">
+                                Sexo
+                            </label>
+                            <div id="sexo">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="masculino">Masculino</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nSex" id="masculino" value="masculino">
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="feminino">Feminino</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nSex" id="feminino" value="feminino">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="row mt-3">
+                        <!-- Disponibilidade de tempo -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="disponibilidade">
+                                Possui tempo livre para dedicar ao animal?
+                            </label>
+                            <div id="disponibilidade">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="disponibilidadeSim">Sim</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nTimeAvailability" id="disponibilidadeSim" value="true">
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="disponibilidadeNao">Não</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nTimeAvailability" id="disponibilidadeNao" value="false">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Já possui animais -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="possuiAnimais">
+                                Já possui animais?
+                            </label>
+                            <div id="possuiAnimais">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="possuiAnimaisSim">Sim</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nHaveAnimals" id="possuiAnimaisSim" value="true">
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label" for="possuiAnimaisNao">Não</label>
+                                    <input class="form-check-input" type="radio"
+                                           name="nHaveAnimals" id="possuiAnimaisNao" value="false">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Doença Crônica -->
+                        <div class="form-group col-md-4 col-sm-6 col-12">
+                            <label for="doencaCronica">
+                                Aceita animais com alguma doença crônica?
+                            </label>
+                            <div id="doencaCronica">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio"
+                                           name="nChronicIllness" id="doencaCronicaSim" value="true">
+                                    <label class="form-check-label" for="doencaCronicaSim">Sim</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio"
+                                           name="nChronicIllness" id="doencaCronicaNao" value="false">
+                                    <label class="form-check-label" for="doencaCronicaNao">Não</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row mt-3">
+                            <!-- Necessidades Especiais ou Tratamento Contínuo -->
+                            <div class="form-group col-md-4 col-sm-6 col-12">
+                                <label for="tratamento">
+                                    Aceita animal com necessidades especiais ou tratamento contínuo?
+                                </label>
+                                <div id="tratamento">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="tratamentoSim">Sim</label>
+                                        <input class="form-check-input" type="radio"
+                                               name="nTreatment" id="tratamentoSim" value="true">
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="tratamentoNao">Não</label>
+                                        <input class="form-check-input" type="radio"
+                                               name="nTreatment" id="tratamentoNao" value="false">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">
+                            Aplicar Filtros
+                        </button>
+                    </form>
                 </div>
-                {% if loop.index % 3 == 0 %}
-                    <div class="row"></div>
-                {% endif %}
-            {% endfor %}
+            </div>
+        </div>
+
+        <!-- Lista de Animais -->
+        <div class="container card-container">
+            <div class="row">
+                {% for animal in animals_list %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <div class="card animal-card">
+                            <img src="../static/images/cachorro.png" class="card-img-top" alt="Lost Animal">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ animal.name }}</h5>
+                                <p class="card-text">{{ animal.characteristics }}</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="/animal/detail/{{ animal.id }}" class="btn btn-primary">
+                                    Conhecer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if loop.index % 3 == 0 %}
+                        <div class="row"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

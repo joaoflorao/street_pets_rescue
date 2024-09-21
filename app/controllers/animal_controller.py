@@ -34,8 +34,21 @@ def register():
 @bp.route("/list", methods=["GET", "POST"])
 @login_required
 def animals_list():
-    animals_list = animal_service.get_animals_list("available")
+    if request.method == "GET":
+        animals_list = animal_service.get_animals_list("available")
+        return render_template("list_animal.html", animals_list=animals_list)
 
+    data = request.form
+
+    animal_specie = data.get('nSpecie')
+    animal_size = data.get('nSize')
+    animal_sex = data.get('nSex')
+    animal_continuous_treatment = data.get('nTreatment')
+    animal_chronic_illness = data.get('nChronicIllness')
+    tutor_already_has_animals = data.get('nHaveAnimals')
+    tutor_has_time_availability = data.get('nTimeAvailability')
+
+    animals_list = animal_service.get_animals_list("available")
     return render_template("list_animal.html", animals_list=animals_list)
 
 
