@@ -20,8 +20,20 @@
                 <span id="animal-name">{{ animal.name }}</span>
             </p>
             <p class="card-text">
-                <strong>Tipo:</strong>
+                <strong>Espécie:</strong>
                 <span id="animal-type">{{ animal.animal_type }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Sexo:</strong>
+                <span id="animal-sex">{{ animal.animal_sex }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Porte:</strong>
+                <span id="animal-size">{{ animal.animal_size }}</span>
+            </p>
+            <p class="card-text">
+                <strong>Se adapta com outros animais:</strong>
+                <span id="animal-adapt">{{ 'Sim' if animal.animal_adapt else 'Não' }}</span>
             </p>
             <p class="card-text">
                 <strong>Status:</strong>

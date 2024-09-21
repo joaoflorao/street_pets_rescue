@@ -28,11 +28,54 @@
                            placeholder="Digite o nome do animal" required>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="animal_type" class="form-label required-field">
-                        Tipo de Animal
+                    <label for="animal_species" class="form-label required-field">
+                        Espécie do animal
                     </label>
-                    <input type="text" class="form-control" id="animal_type" name="nAnimalType"
-                           placeholder="Ex: Cachorro, Gato" required>
+                    <select class="form-control" id="animal_species" name="nAnimalSpecies" required>
+                        <option value="" selected disabled>Selecione a espécie do animal...</option>
+                        <option value="cachorro">Cachorro</option>
+                        <option value="gato">Gato</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="sexo" class="form-label required-field">
+                        Sexo
+                    </label>
+                    <select class="form-control" id="sexo" name="nAnimalSex" required>
+                        <option value="" selected disabled>Selecione o sexo do animal...</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="porte" class="form-label required-field">
+                        Porte
+                    </label>
+                    <select class="form-control" id="porte" name="nAnimalSize" required>
+                        <option value="" selected disabled>Selecione o porte do animal...</option>
+                        <option value="pequeno">Pequeno</option>
+                        <option value="medio">Médio</option>
+                        <option value="grande">Grande</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="porte" class="form-label required-field">
+                        Se adapta com outros animais?
+                    </label>
+                    <div id="adapt_others">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="adapt_others_yes"
+                                   name="nAdaptOthersAnimals" value="true" required>
+                            <label class="form-check-label" for="adapt_others_yes">Sim</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="adapt_others_no"
+                                   name="nAdaptOthersAnimals" value="false" required>
+                            <label class="form-check-label" for="adapt_others_no">Não</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -79,6 +122,12 @@
                 </div>
             </div>
             <div class="form-row">
+                <!--<div class="form-group col-md-6">
+                    <label for="animal_image" class="form-label required-field">
+                        Imagem do Animal
+                    </label>
+                    <input type="file" class="form-control" id="animal_image" name="nAnimalImage" accept="image/*" required>
+                </div>-->
                 <div class="form-group col-md-6">
                     <label for="rescue_date" class="form-label required-field">
                         Data do Resgate

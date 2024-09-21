@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask import Blueprint, request, render_template, flash, session, redirect, url_for
 from flask_login import login_required, current_user
 from app import animal_service, user_service
 
@@ -14,7 +14,10 @@ def register():
 
     data = request.form
     animal_name = data.get("nAnimalName")
-    animal_type = data.get("nAnimalType")
+    animal_type = data.get("nAnimalSpecies")
+    animal_sex = data.get("nAnimalSex")
+    animal_size = data.get("nAnimalSize")
+    animal_adapt = data.get("nAdaptOthersAnimals", type=bool)
     characteristics = data.get("nCharacteristics")
     health_needs = data.get("nHealthNeeds")
     continuous_treatments = data.get("nContinuousTreatments")
@@ -23,8 +26,9 @@ def register():
     rescue_date = data.get("nRescueDate")
 
     animal_service.register_animal(
-        animal_name, animal_type, characteristics, health_needs,
-        continuous_treatments, special_needs, animal_status, rescue_date,
+        animal_name, animal_type, animal_sex, animal_size, animal_adapt,
+        characteristics, health_needs, continuous_treatments,
+        special_needs, animal_status, rescue_date
     )
 
     flash("Animal cadastrado com sucesso!", "success")
@@ -40,13 +44,13 @@ def animals_list():
 
     data = request.form
 
-    animal_specie = data.get('nSpecie')
-    animal_size = data.get('nSize')
-    animal_sex = data.get('nSex')
-    animal_continuous_treatment = data.get('nTreatment')
-    animal_chronic_illness = data.get('nChronicIllness')
-    tutor_already_has_animals = data.get('nHaveAnimals')
-    tutor_has_time_availability = data.get('nTimeAvailability')
+    animal_specie = data.get("nSpecies")
+    animal_size = data.get("nSize")
+    animal_sex = data.get("nSex")
+    animal_continuous_treatment = data.get("nTreatment")
+    animal_chronic_illness = data.get("nChronicIllness")
+    tutor_already_has_animals = data.get("nHaveAnimals")
+    tutor_has_time_availability = data.get("nTimeAvailability")
 
     animals_list = animal_service.get_animals_list("available")
     return render_template("list_animal.html", animals_list=animals_list)
