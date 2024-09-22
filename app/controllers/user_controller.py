@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, redirect, url_for
+from flask import Blueprint, request, render_template, flash, session, redirect, url_for
 from flask_login import login_user, login_required, logout_user
 from app import user_service
 
@@ -17,6 +17,7 @@ def login():
     user = user_service.check_user_exists(email)
     if user and user.check_password(user.password, password):
         login_user(user)
+        session['user_preferences_filter'] = {}
         return redirect(url_for("animal.animals_list"))
 
     flash("Usuário ou senha incorretos!", "danger")

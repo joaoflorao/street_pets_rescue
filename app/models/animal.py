@@ -17,12 +17,12 @@ class Animal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    animal_type = db.Column(db.String)
+    animal_species = db.Column(db.String)
     animal_sex = db.Column(db.String)
     animal_size = db.Column(db.String)
     animal_adapt = db.Column(db.Boolean)
     characteristics = db.Column(db.String)
-    health_needs = db.Column(db.String)
+    chronic_illness = db.Column(db.String)
     continuous_treatments = db.Column(db.String)
     special_needs = db.Column(db.String)
     status = db.Column(SqlEnum(AnimalStatus))
@@ -32,24 +32,24 @@ class Animal(db.Model):
     def __init__(
         self,
         name,
-        animal_type,
+        animal_species,
         animal_sex,
         animal_size,
         animal_adapt,
         characteristics,
-        health_needs,
+        chronic_illness,
         continuous_treatments,
         special_needs,
         status,
         rescue_date
     ):
         self.name = name
-        self.animal_type = animal_type
+        self.animal_species = animal_species
         self.animal_sex = animal_sex
         self.animal_size = animal_size
         self.animal_adapt = animal_adapt
         self.characteristics = characteristics
-        self.health_needs = health_needs
+        self.chronic_illness = chronic_illness
         self.continuous_treatments = continuous_treatments
         self.special_needs = special_needs
         self.status = AnimalStatus(status)

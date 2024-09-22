@@ -39,20 +39,31 @@ def register():
 @login_required
 def animals_list():
     if request.method == "GET":
-        animals_list = animal_service.get_animals_list("available")
+        animals_list = animal_service.get_animals_by_user_preference(session['user_preferences_filter'])
         return render_template("list_animal.html", animals_list=animals_list)
 
     data = request.form
 
-    animal_specie = data.get("nSpecies")
+    animal_species = data.get("nSpecies")
     animal_size = data.get("nSize")
     animal_sex = data.get("nSex")
-    animal_continuous_treatment = data.get("nTreatment")
-    animal_chronic_illness = data.get("nChronicIllness")
-    tutor_already_has_animals = data.get("nHaveAnimals")
-    tutor_has_time_availability = data.get("nTimeAvailability")
+    accept_animal_with_continuous_treatment = data.get("nTreatment", type=bool)
+    accept_animal_with_chronic_illness = data.get("nChronicIllness", type=bool)
+    tutor_owns_animals = data.get("nHaveAnimals", type=bool)
+    tutor_has_time_availability = data.get("nTimeAvailability", type=bool)
 
-    animals_list = animal_service.get_animals_list("available")
+    user_preferences_filter = {
+        "animal_species": animal_species,
+        "animal_size": animal_size,
+        "animal_sex": animal_sex,
+        "tutor_time_availability": tutor_has_time_availability,
+        "tutor_owns_animals": tutor_owns_animals,
+        "accept_animal_with_chronic_illness": accept_animal_with_chronic_illness,
+        "accept_animal_with_continuous_treatment": accept_animal_with_continuous_treatment
+    }
+    session['user_preferences_filter'] = user_preferences_filter
+
+    animals_list = animal_service.get_animals_by_user_preference(user_preferences_filter)
     return render_template("list_animal.html", animals_list=animals_list)
 
 
