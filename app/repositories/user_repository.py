@@ -1,4 +1,5 @@
-from app.models.user import User
+from app.models.user import User, user_animal_table
+from app.models.animal import Animal
 
 
 class UserRepository:
@@ -13,6 +14,16 @@ class UserRepository:
         self.session.add(new_user)
         self.session.commit()
         return new_user
+
+    def get_animals_by_user(self, user_id):
+        animals = (
+            self.session.query(Animal)
+            .join(user_animal_table, Animal.id == user_animal_table.c.animal_id)
+            .join(User, User.id == user_animal_table.c.user_id)
+            .filter(User.id == user_id)
+            .all()
+        )
+        return animals
 
     def adopt_animal(self, user, animal):
         user.animals.append(animal)

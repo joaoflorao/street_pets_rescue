@@ -17,7 +17,7 @@ def register():
     animal_type = data.get("nAnimalSpecies")
     animal_sex = data.get("nAnimalSex")
     animal_size = data.get("nAnimalSize")
-    animal_adapt = data.get("nAdaptOthersAnimals", type=bool)
+    animal_adapt = bool(data.get("nAdaptOthersAnimals", type=int))
     characteristics = data.get("nCharacteristics")
     health_needs = data.get("nHealthNeeds")
     continuous_treatments = data.get("nContinuousTreatments")
@@ -39,7 +39,7 @@ def register():
 @login_required
 def animals_list():
     if request.method == "GET":
-        animals_list = animal_service.get_animals_by_user_preference(session['user_preferences_filter'])
+        animals_list = animal_service.get_animals_by_user_preference(session.get('user_preferences_filter'))
         return render_template("list_animal.html", animals_list=animals_list)
 
     data = request.form
@@ -47,10 +47,10 @@ def animals_list():
     animal_species = data.get("nSpecies")
     animal_size = data.get("nSize")
     animal_sex = data.get("nSex")
-    accept_animal_with_continuous_treatment = data.get("nTreatment", type=bool)
-    accept_animal_with_chronic_illness = data.get("nChronicIllness", type=bool)
-    tutor_owns_animals = data.get("nHaveAnimals", type=bool)
-    tutor_has_time_availability = data.get("nTimeAvailability", type=bool)
+    accept_animal_with_continuous_treatment = bool(data.get("nTreatment", type=int))
+    accept_animal_with_chronic_illness = bool(data.get("nChronicIllness", type=int))
+    tutor_owns_animals = bool(data.get("nHaveAnimals", type=int))
+    tutor_has_time_availability = bool(data.get("nTimeAvailability", type=int))
 
     user_preferences_filter = {
         "animal_species": animal_species,
@@ -84,9 +84,22 @@ def adopt_animal():
     data = request.form
     animal_id = data.get("nAnimalId")
 
+    user_filter = session.get('user_preferences_filter')
     animal = animal_service.get_animal_by_id(animal_id)
     if animal.status.value != "Disponivel":
-        flash("O animal não está disponível para adoção!", "warning")
+        message = f"O animal não está disponível para adoção ou já foi adotado por outra pessoa!"
+        flash(message, "warning")
+        return render_template("detail_animal.html", animal=animal)
+
+    user_animals_list = user_service.get_animals_by_user(current_user.id)
+    if not animal.animal_adapt and (user_animals_list or user_filter.get('tutor_owns_animals')):
+        message = f"Infelizmente {animal.name} não se adapta com animais, e você já possui animais!"
+        flash(message, "warning")
+        return render_template("detail_animal.html", animal=animal)
+
+    if not user_filter.get('tutor_time_availability') and animal.continuous_treatments:
+        message = f"Esse animal exige cuidados constantes e você não possui tempo livre!"
+        flash(message, "warning")
         return render_template("detail_animal.html", animal=animal)
 
     new_animal_status = "Adotado"
