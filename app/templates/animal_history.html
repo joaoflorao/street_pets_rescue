@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+        <!-- Informações do Animal -->
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Informações do Animal</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>Nome:</strong> {{ animal.name }}</p>
+                        <p><strong>Espécie:</strong> {{ animal.animal_species }}</p>
+                        <p><strong>Porte:</strong> {{ animal.animal_size }}</p>
+                        <p><strong>Sexo:</strong> {{ animal.animal_sex }}</p>
+                        <p><strong>Data de Resgate:</strong> {{ animal.rescue_date.strftime('%d/%m/%Y') }}</p>
+                        <p><strong>Data de Registro:</strong> {{ animal.registration_date.strftime('%d/%m/%Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Histórico de Localização -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3 class="text-center">
+                    Histórico de Localização
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Local</th>
+                                <th>Data de Início</th>
+                                <th>Data de Saída</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for history in animal_location_history %}
+                                <tr>
+                                    <td>{{ history.location }}</td>
+                                    <td>{{ history.start_date.strftime('%d/%m/%Y') }}</td>
+                                    <td>{{ history.end_date.strftime('%d/%m/%Y') if history.end_date else 'N/A' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário para Adicionar Novo Local -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h3 class="text-center">Adicionar Novo Local</h3>
+                <form action="/animal_location_history/register_location" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="location">
+                                Local
+                            </label>
+                            <input type="text" class="form-control" id="location" name="nLocation"
+                                   autocomplete="off" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="start_date">
+                                Data de Início
+                            </label>
+                            <input type="date" class="form-control" id="start_date" name="nStartDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="end_date">
+                                Data de Saída (opcional)
+                            </label>
+                            <input type="date" class="form-control" id="end_date" name="nEndDate">
+                        </div>
+                    </div>
+                    <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+                    <button type="button" class="btn btn-secondary btn-block mt-3"
+                            onclick="window.location.href='/animal/detail/{{ animal.id }}'">
+                        Voltar
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">
+                        Adicionar Local
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

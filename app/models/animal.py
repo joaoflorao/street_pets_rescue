@@ -57,3 +57,5 @@ class Animal(db.Model):
         self.registration_date = datetime.now()
 
     users = db.relationship("User", secondary="user_animal", back_populates="animals")
+    location_history = db.relationship("AnimalLocationHistory", back_populates="animals_reference",
+                                       cascade="all, delete-orphan")
