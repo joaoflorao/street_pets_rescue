@@ -1,15 +1,8 @@
 from app.services import db
 from flask_login import UserMixin
 from datetime import datetime
-import enum
 from sqlalchemy import Enum as SqlEnum
-
-
-class AnimalStatus(enum.Enum):
-    available = "Disponivel"
-    adopted = "Adotado"
-    lost = "Perdido"
-    deceased = "Falecido"
+from .animal_status import AnimalStatus
 
 
 class Animal(db.Model):
@@ -57,5 +50,5 @@ class Animal(db.Model):
         self.registration_date = datetime.now()
 
     users = db.relationship("User", secondary="user_animal", back_populates="animals")
-    location_history = db.relationship("AnimalLocationHistory", back_populates="animals_reference",
+    location_history = db.relationship("AnimalHistory", back_populates="animals_reference",
                                        cascade="all, delete-orphan")

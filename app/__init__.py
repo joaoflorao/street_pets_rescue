@@ -2,10 +2,10 @@ import os
 from flask import Flask
 from .repositories.user_repository import UserRepository
 from .repositories.animal_repository import AnimalRepository
-from .repositories.animal_location_repository import AnimalLocationHistoryRepository
+from .repositories.animal_history_repository import AnimalHistoryRepository
 from .services.user_service import UserService
 from .services.animal_service import AnimalService
-from .services.animal_location_service import AnimalLocationHistoryService
+from .services.animal_history_service import AnimalHistoryService
 from .services import login_manager, db
 
 app = Flask(__name__)
@@ -27,22 +27,22 @@ user_repository = UserRepository(db.session)
 user_service = UserService(user_repository)
 animal_repository = AnimalRepository(db.session)
 animal_service = AnimalService(animal_repository)
-animal_location_repository = AnimalLocationHistoryRepository(db.session)
-animal_location_service = AnimalLocationHistoryService(animal_location_repository)
+animal_history_repository = AnimalHistoryRepository(db.session)
+animal_history_service = AnimalHistoryService(animal_history_repository)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return UserRepository.get_user_by_id(user_id)
+    return user_repository.get_user_by_id(user_id)
 
 
 # Rotas
 from .controllers.user_controller import bp as user_bp
 from .controllers.animal_controller import bp as animal_bp
-from .controllers.animal_location_controller import bp as animal_location_bp
+from .controllers.animal_history_controller import bp as animal_history_bp
 
 app.register_blueprint(user_bp, url_prefix="/user")
 app.register_blueprint(animal_bp, url_prefix="/animal")
 
-app.register_blueprint(animal_location_bp, url_prefix="/animal_location_history")
+app.register_blueprint(animal_history_bp, url_prefix="/animal_history")
 
 from . import views

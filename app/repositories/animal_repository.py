@@ -1,4 +1,5 @@
-from app.models.animal import Animal, AnimalStatus
+from app.models.animal import Animal
+from app.models.animal_status import AnimalStatus
 
 
 class AnimalRepository:

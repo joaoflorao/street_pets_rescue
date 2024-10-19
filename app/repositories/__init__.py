@@ -1,3 +1,3 @@
 from .user_repository import UserRepository
 from .animal_repository import AnimalRepository
-from .animal_location_repository import AnimalLocationHistoryRepository
+from .animal_history_repository import AnimalHistoryRepository
