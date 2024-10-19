@@ -6,14 +6,13 @@ from app.models.event_type import EventType
 bp = Blueprint("animal_history", __name__)
 
 
-@bp.route("/animal_history", methods=["GET", "POST"])
+@bp.route("/history", methods=["GET", "POST"])
 @login_required
-def animal_history():
-    data = request.form
+def history():
     action_types_list = animal_history_service.get_event_types()
     status_list = animal_service.get_status_list()
 
-    animal_id = data.get("nAnimalId", type=int)
+    animal_id = int(session['animal_id'])
     if request.method == "GET":
         animal = animal_service.get_animal_by_id(animal_id)
         animal_history = animal_history_service.get_animal_history(animal_id)
@@ -32,7 +31,7 @@ def register_location():
     action_types_list = animal_history_service.get_event_types()
     status_list = animal_service.get_status_list()
 
-    animal_id = data.get("nAnimalId", type=int)
+    animal_id = int(session['animal_id'])
     if request.method == "GET":
         animal = animal_service.get_animal_by_id(animal_id)
         animal_history = animal_history_service.get_animal_history(animal_id)
@@ -52,4 +51,4 @@ def register_location():
     animal_history_service.add_animal_event_history(animal_id, action_type, event_description, event_date)
     animal_history = animal_history_service.get_animal_history(animal_id)
 
-    return redirect(url_for('animal_history', animal_id=animal_id))
+    return redirect(url_for('animal_history.history'))

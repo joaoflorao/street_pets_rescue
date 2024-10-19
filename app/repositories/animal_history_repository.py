@@ -14,7 +14,7 @@ class AnimalHistoryRepository:
         animal_history = AnimalHistory.query.filter_by(
             animal_id=animal_id
         ).order_by(
-            AnimalHistory.start_date.asc()
+            AnimalHistory.event_date.asc()
         ).all()
         return animal_history
 

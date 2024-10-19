@@ -75,6 +75,7 @@ def animal_detail(animal_id):
         flash("Animal não encontrado", "warning")
         return redirect(url_for("animal.animals_list"))
 
+    session['animal_id'] = animal_id
     return render_template("detail_animal.html", animal=animal_info)
 
 
