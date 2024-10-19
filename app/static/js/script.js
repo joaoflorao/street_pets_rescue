@@ -14,30 +14,26 @@ function togglePasswordVisibility(togglePasswordId, passwordFieldId, toggleIconI
 }
 
 function checkPasswordIsValid(){
-    const password = document.getElementById('password');
-    const confirm_password = document.getElementById('confirm_password');
+    let password = document.getElementById('password');
+    let confirm_password = document.getElementById('confirm_password');
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+    password.setCustomValidity('');
     if (!passwordPattern.test(password.value)){
         password.setCustomValidity(
             "A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, "
             + "uma letra minúscula, um número e um símbolo especial."
         );
     }
-    else{
-        password.setCustomValidity('');
-    }
 
+    confirm_password.setCustomValidity('');
     if (confirm_password.value !== password.value){
         confirm_password.setCustomValidity('As senhas não coincidem!');
-    }
-    else{
-        confirm_password.setCustomValidity('');
     }
 }
 
 function checkUserAge(){
-    const elementBibirthDate = document.getElementById('birth_date');
+    let elementBibirthDate = document.getElementById('birth_date');
     const birthDate = new Date(elementBibirthDate.value);
     const currentDate = new Date();
 
@@ -48,10 +44,42 @@ function checkUserAge(){
     if (monthsDifference <= 0 && (currentDate.getDate() < birthDate.getDate())){
         userAge--;
     }
+    elementBibirthDate.setCustomValidity('');
     if (userAge < 18){
         elementBibirthDate.setCustomValidity('Você deve ter no mínimo 18 anos.');
     }
-    else{
-        elementBibirthDate.setCustomValidity('');
+}
+
+function toggleStatusInput() {
+    const actionType = document.getElementById("action_type").value;
+    let statusSelectGroup = document.getElementById("status_select_group");
+    let statusSelect = document.getElementById("status");
+
+    statusSelectGroup.style.display = "none";
+    if (actionType === "Alteração de status") {
+        statusSelect.required = true;
+        statusSelectGroup.style.display = "block";
     }
+}
+
+function confirmSubmit(event, msgText) {
+    event.preventDefault();
+
+    Swal.fire({
+        text: msgText,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        buttonsStyling: true,
+        reverseButtons: true,
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            event.target.submit();
+        }
+    });
 }
