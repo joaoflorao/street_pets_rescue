@@ -1,3 +1,5 @@
+<title>Histórico do Animal</title>
+
 {% extends 'base.html' %}
 
 {% block conteudo %}
@@ -6,18 +8,34 @@
 
     <div class="container mt-4">
         <!-- Informações do Animal -->
-        <div class="row">
+        <div class="row mt-4">
             <div class="col-md-12">
                 <h2 class="text-center">Informações do Animal</h2>
-                <div class="card">
-                    <div class="card-body">
-                        <p><strong>Nome:</strong> {{ animal.name }}</p>
-                        <p><strong>Espécie:</strong> {{ animal.animal_species }}</p>
-                        <p><strong>Porte:</strong> {{ animal.animal_size }}</p>
-                        <p><strong>Sexo:</strong> {{ animal.animal_sex }}</p>
-                        <p><strong>Data de Resgate:</strong> {{ animal.rescue_date.strftime('%d/%m/%Y') }}</p>
-                        <p><strong>Data de Registro:</strong> {{ animal.registration_date.strftime('%d/%m/%Y') }}</p>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Espécie</th>
+                                <th>Porte</th>
+                                <th>Sexo</th>
+                                <th>Status</th>
+                                <th>Data de Resgate</th>
+                                <th>Data de Registro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ animal.name }}</td>
+                                <td>{{ animal.animal_species }}</td>
+                                <td>{{ animal.animal_size }}</td>
+                                <td>{{ animal.animal_sex }}</td>
+                                <td>{{ animal.status.value }}</td>
+                                <td>{{ animal.rescue_date.strftime('%d/%m/%Y') }}</td>
+                                <td>{{ animal.registration_date.strftime('%d/%m/%Y') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -32,8 +50,7 @@
                             <tr>
                                 <th>Tipo de Registro</th>
                                 <th>Descrição</th>
-                                <th>Data de início</th>
-                                <th>Data de Fim</th>
+                                <th>Data</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +59,6 @@
                                     <td>{{ history.action_type.value }}</td>
                                     <td>{{ history.description }}</td>
                                     <td>{{ history.start_date.strftime('%d/%m/%Y') }}</td>
-                                    <td>{{ history.end_date.strftime('%d/%m/%Y') if history.end_date else 'N/A' }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -55,32 +71,41 @@
         <div class="row mt-4">
             <div class="col-md-12">
                 <h3 class="text-center">Adicionar Novo Registro</h3>
-                <form action="/animal_history/register_event_history" method="POST">
+                <form action="/animal_history/register_event_history" method="POST"
+                      onsubmit="return confirmSubmit(event, 'Deseja registrar as informações ao histórico do animal?');">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="action_type">Tipo de Registro</label>
-                            <select class="form-control" id="action_type" name="nActionType" required>
-                                <option value="" selected disabled>Selecione o status do animal...</option>
+                            <select class="form-control" id="action_type" name="nActionType" required
+                                    onchange="toggleStatusInput()">
+                                <option value="" selected disabled>Selecione o tipo do evento...</option>
                                 {% for action_type in action_types_list %}
                                     {% if action_type != action_types_list.register %}
                                         <option value="{{ action_type.value }}">{{ action_type.value }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
+                            <div class="form-group col-md-6 mt-2" id="status_select_group" style="display: none;">
+                                <label for="status">Novo Status</label>
+                                <select class="form-control" id="status" name="nAnimalStatus">
+                                    <option value="" selected disabled>Selecione o status do animal...</option>
+                                        {% for status in status_list %}
+                                            {% if status != animal.status %}
+                                            <option value="{{ status.value }}">{{ status.value }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-md6">
+                        <div class="form-group col-md-6 mt-2">
                             <label for="description">Descrição</label>
                             <input type="text" class="form-control" id="description" name="nDescription" required>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="action_date">Data da Ação</label>
-                            <input type="date" class="form-control" id="action_date" name="nActionDate" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="end_date">Data de Fim (opcional)</label>
-                            <input type="date" class="form-control" id="end_date" name="nEndDate">
+                        <div class="form-group col-md-6 mt-2">
+                            <label for="event_date">Data do evento</label>
+                            <input type="date" class="form-control" id="event_date" name="nEventDate" required>
                         </div>
                     </div>
                     <input type="hidden" name="nAnimalId" value="{{ animal.id }}">

@@ -18,7 +18,8 @@
         <h2>Cadastro de Animal</h2>
     </div>
     <div class="card-body animal-card">
-        <form action="/animal/register" method="post">
+        <form action="/animal/register" method="POST"
+              onsubmit="return confirmSubmit(event, 'Deseja Cadastrar o animal?');">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="name" class="form-label required-field">

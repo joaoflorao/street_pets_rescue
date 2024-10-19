@@ -64,16 +64,15 @@
                 <span id="animal-registration-date">{{ animal.registration_date.strftime('%d/%m/%Y') }}</span>
             </p>
         </div>
-        <form action="/animal/adopt" method="POST">
+        <form action="/animal/adopt" method="POST"
+              onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
             <div class="card-footer text-right">
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='/animal/list'">
                     Voltar
                 </button>
-                {% if animal.status.value == "Disponivel" %}
-                    <button type="submit" class="btn btn-success mr-2">
-                        Adotar
-                    </button>
-                {% endif %}
+                <button type="submit" class="btn btn-success mr-2">
+                    Adotar
+                </button>
                 <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
             </div>
         </form>
