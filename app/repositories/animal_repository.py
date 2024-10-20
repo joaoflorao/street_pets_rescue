@@ -16,7 +16,8 @@ class AnimalRepository:
         return AnimalStatus
 
     def get_animals_list(self, status):
-        return self.session.query(Animal).filter_by(status=status).all()
+        animal_status = AnimalStatus(status)
+        return self.session.query(Animal).filter_by(status=animal_status).all()
 
     def get_animal_by_id(self, animal_id):
         return self.session.query(Animal).filter_by(id=animal_id).first()

@@ -8,9 +8,9 @@ class AnimalService:
     def get_status_list(self):
         return self.animal_repository.get_status_list()
 
-    def get_animals_by_user_preference(self, filters):
+    def get_animals_by_user_preference(self, filters, animal_status):
         animals_with_score = []
-        animals_list = self.animal_repository.get_animals_list("available")
+        animals_list = self.animal_repository.get_animals_list(animal_status)
         for animal in animals_list:
             animal_score = self.calc_animal_score(animal, filters)
             animals_with_score.append((animal, animal_score))

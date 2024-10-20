@@ -1,6 +1,9 @@
 from flask import Blueprint, request, render_template, flash, session, redirect, url_for
 from flask_login import login_required, current_user
-from app import animal_service, user_service
+from app import animal_service, user_service, animal_history_service
+from app.models.event_type import EventType
+from app.models.animal_status import AnimalStatus
+from datetime import datetime
 
 bp = Blueprint("animal", __name__)
 
@@ -32,17 +35,21 @@ def register():
     )
 
     flash("Animal cadastrado com sucesso!", "success")
-    return render_template("register_animal.html", status_list=status_list)
+    return redirect(url_for("animal.animals_list"))
 
 
 @bp.route("/list", methods=["GET", "POST"])
 @login_required
 def animals_list():
-    if request.method == "GET":
-        animals_list = animal_service.get_animals_by_user_preference(session.get('user_preferences_filter'))
-        return render_template("list_animal.html", animals_list=animals_list)
-
     data = request.form
+    status_list = animal_service.get_status_list()
+
+    animal_status = data.get("nAnimalStatus", type=str, default=AnimalStatus.available.value)
+    if request.method == "GET":
+        custom_filter = session.get('user_preferences_filter')
+
+        animals_list = animal_service.get_animals_by_user_preference(custom_filter, animal_status)
+        return render_template("list_animal.html", animals_list=animals_list, status_list=status_list)
 
     animal_species = data.get("nSpecies")
     animal_size = data.get("nSize")
@@ -63,13 +70,19 @@ def animals_list():
     }
     session['user_preferences_filter'] = user_preferences_filter
 
-    animals_list = animal_service.get_animals_by_user_preference(user_preferences_filter)
-    return render_template("list_animal.html", animals_list=animals_list)
+    animals_list = animal_service.get_animals_by_user_preference(user_preferences_filter, animal_status)
+    return render_template("list_animal.html", animals_list=animals_list, status_list=status_list)
 
 
-@bp.route("/detail/<int:animal_id>", methods=["GET"])
+@bp.route("/detail", methods=["GET", "POST"])
 @login_required
-def animal_detail(animal_id):
+def animal_detail():
+    data = request.form
+
+    animal_id = data.get("nAnimalId", type=int)
+    if not animal_id:
+        animal_id = int(session['animal_id'])
+
     animal_info = animal_service.get_animal_by_id(animal_id)
     if not animal_info:
         flash("Animal não encontrado", "warning")
@@ -83,7 +96,9 @@ def animal_detail(animal_id):
 @login_required
 def adopt_animal():
     data = request.form
-    animal_id = data.get("nAnimalId")
+    animal_id = data.get("nAnimalId", type=int)
+    if not animal_id:
+        animal_id = int(session['animal_id'])
 
     user_filter = session.get('user_preferences_filter')
     animal = animal_service.get_animal_by_id(animal_id)
@@ -105,7 +120,12 @@ def adopt_animal():
 
     new_animal_status = "Adotado"
     animal = animal_service.update_animal_status(animal_id, new_animal_status)
+
+    session['animal_id'] = animal_id
+    event_description = "Animal adotado."
+    animal_history_service.add_animal_event_history(animal_id, EventType.status,
+                                                    event_description, datetime.utcnow())
     user_service.adopt_animal(current_user, animal)
 
     flash(f"Parabéns! Você adotou o {animal.name}!", "success")
-    return render_template("detail_animal.html", animal=animal)
+    return redirect(url_for("animal.detail"))
