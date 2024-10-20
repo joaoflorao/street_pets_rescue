@@ -3,85 +3,57 @@
 
 {% block conteudo %}
 {% include 'navbar.html' %}
+
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="card-title text-center mt-2">
                 Detalhes do Animal
             </h4>
         </div>
+        <!-- Imagem e informações do Animal -->
         <div class="card-body">
-            <div class="container mb-4">
-                <img src="../static/images/cachorro.png" alt="Imagem do Animal" class="img-fluid rounded" style="max-height: 300px;">
+            <div class="text-center mb-4">
+                <img src="../static/images/cachorro.png" alt="Imagem do Animal" class="img-fluid rounded shadow-sm" style="max-height: 300px; width: auto;">
             </div>
-
-            <p class="card-text">
-                <strong>Nome:</strong>
-                <span id="animal-name">{{ animal.name }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Espécie:</strong>
-                <span id="animal-type">{{ animal.animal_type }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Sexo:</strong>
-                <span id="animal-sex">{{ animal.animal_sex }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Porte:</strong>
-                <span id="animal-size">{{ animal.animal_size }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Se adapta com outros animais:</strong>
-                <span id="animal-adapt">{{ 'Sim' if animal.animal_adapt else 'Não' }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Status:</strong>
-                <span id="animal-status">{{ animal.status.value }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Características:</strong>
-                <span id="animal-characteristics">{{ animal.characteristics }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Necessidades de Saúde:</strong>
-                <span id="animal-health-needs">{{ animal.health_needs }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Tratamentos Contínuos:</strong>
-                <span id="animal-treatments">{{ animal.continuous_treatments }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Necessidades Especiais:</strong>
-                <span id="animal-special-needs">{{ animal.special_needs }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Data de Resgate:</strong>
-                <span id="animal-rescue-date">{{ animal.rescue_date.strftime('%d/%m/%Y') }}</span>
-            </p>
-            <p class="card-text">
-                <strong>Data de Registro:</strong>
-                <span id="animal-registration-date">{{ animal.registration_date.strftime('%d/%m/%Y') }}</span>
-            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="card-text"><strong>Nome:</strong> {{ animal.name }}</p>
+                    <p class="card-text"><strong>Espécie:</strong> {{ animal.animal_species }}</p>
+                    <p class="card-text"><strong>Sexo:</strong> {{ animal.animal_sex }}</p>
+                    <p class="card-text"><strong>Porte:</strong> {{ animal.animal_size }}</p>
+                    <p class="card-text"><strong>Status:</strong> {{ animal.status.value }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="card-text"><strong>Se adapta com outros animais:</strong> {{ 'Sim' if animal.animal_adapt else 'Não' }}</p>
+                    <p class="card-text"><strong>Características:</strong> {{ animal.characteristics }}</p>
+                    <p class="card-text"><strong>Necessidades de Saúde:</strong> {{ animal.health_needs }}</p>
+                    <p class="card-text"><strong>Tratamentos Contínuos:</strong> {{ animal.continuous_treatments }}</p>
+                    <p class="card-text"><strong>Necessidades Especiais:</strong> {{ animal.special_needs }}</p>
+                </div>
+            </div>
         </div>
-        <form action="/animal/adopt" method="POST"
-              onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
-            <div class="card-footer text-right">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/animal/list'">
-                    Voltar
-                </button>
-                <button type="submit" class="btn btn-success mr-2">
-                    Adotar
-                </button>
-                <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
-            </div>
-        </form>
-        <form action="/animal_history/history" method="POST">
-            <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
-            <button type="submit" class="btn btn-primary">
-                Histórico do animal
+
+        <div class="card-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='/animal/list'">
+                Voltar
             </button>
-        </form>
+            <div>
+                <form action="/animal/adopt" method="POST" class="d-inline" onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
+                    <button type="submit" class="btn btn-success">
+                        Adotar
+                    </button>
+                    <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+                </form>
+
+                <form action="/animal_history/history" method="POST" class="d-inline">
+                    <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+                    <button type="submit" class="btn btn-primary">
+                        Histórico do Animal
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

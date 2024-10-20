@@ -144,6 +144,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Status do animal -->
+                            <div class="form-group col-md-4 col-sm-6 col-12">
+                                <label for="status" class="form-label">
+                                    Status
+                                </label>
+                                <select class="form-control" id="status" name="nAnimalStatus" required>
+                                    <option value="" selected disabled>Selecione o status do animal...</option>
+                                        {% for status in status_list %}
+                                            <option value="{{ status.value }}">{{ status.value }}</option>
+                                        {% endfor %}
+                                </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3">
                             Aplicar Filtros
@@ -158,18 +170,21 @@
             <div class="row">
                 {% for animal in animals_list %}
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <div class="card animal-card">
-                            <img src="../static/images/cachorro.png" class="card-img-top" alt="Lost Animal">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ animal.name }}</h5>
-                                <p class="card-text">{{ animal.characteristics }}</p>
+                        <form action="/animal/detail" method="post">
+                            <div class="card animal-card">
+                                <img src="../static/images/cachorro.png" class="card-img-top" alt="Lost Animal">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ animal.name }}</h5>
+                                    <p class="card-text">{{ animal.characteristics }}</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        Conhecer
+                                    </button>
+                                </div>
                             </div>
-                            <div class="card-footer text-center">
-                                <a href="/animal/detail/{{ animal.id }}" class="btn btn-primary">
-                                    Conhecer
-                                </a>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     {% if loop.index % 3 == 0 %}
                         <div class="row"></div>
