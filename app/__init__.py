@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask
 from .repositories.user_repository import UserRepository
 from .repositories.animal_repository import AnimalRepository
@@ -9,6 +10,14 @@ from .services.animal_history_service import AnimalHistoryService
 from .services import login_manager, db
 
 app = Flask(__name__)
+
+# Logging config
+app.logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler = logging.FileHandler("app.log", mode="a")
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(formatter)
+app.logger.addHandler(file_handler)
 
 # Database Config
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
