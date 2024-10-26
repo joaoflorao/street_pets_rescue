@@ -172,7 +172,8 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <form action="/animal/detail" method="post">
                             <div class="card animal-card">
-                                <img src="../static/images/cachorro.png" class="card-img-top" alt="Lost Animal">
+                                <img src="data:image/jpeg;base64,{{ animal.image_base64 }}"
+                                     class="card-img-top" alt="Lost Animal">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ animal.name }}</h5>
                                     <p class="card-text">{{ animal.characteristics }}</p>

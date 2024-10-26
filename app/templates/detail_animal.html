@@ -14,7 +14,8 @@
         <!-- Imagem e informações do Animal -->
         <div class="card-body">
             <div class="text-center mb-4">
-                <img src="../static/images/cachorro.png" alt="Imagem do Animal" class="img-fluid rounded shadow-sm" style="max-height: 300px; width: auto;">
+                <img src="data:image/jpeg;base64,{{ animal.image_base64 }}" alt="Imagem do Animal"
+                     class="img-fluid rounded shadow-sm" style="max-height: 300px; width: auto;">
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -39,12 +40,14 @@
                 Voltar
             </button>
             <div>
-                <form action="/animal/adopt" method="POST" class="d-inline" onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
-                    <button type="submit" class="btn btn-success">
-                        Adotar
-                    </button>
-                    <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
-                </form>
+                {% if animal.status == animal.status.available %}
+                    <form action="/animal/adopt" method="POST" class="d-inline" onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
+                        <button type="submit" class="btn btn-success">
+                            Adotar
+                        </button>
+                        <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
+                    </form>
+                {% endif %}
 
                 <form action="/animal_history/history" method="POST" class="d-inline">
                     <input type="hidden" name="nAnimalId" value="{{ animal.id }}">

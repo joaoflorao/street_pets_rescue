@@ -21,7 +21,7 @@
                                 <th>Sexo</th>
                                 <th>Status</th>
                                 <th>Data de Resgate</th>
-                                <th>Data de Registro</th>
+                                <th>Data de Cadastro</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,7 +80,7 @@
                                     onchange="toggleStatusInput()">
                                 <option value="" selected disabled>Selecione o tipo do evento...</option>
                                 {% for action_type in action_types_list %}
-                                    {% if action_type != action_types_list.register %}
+                                    {% if action_type not in (action_types_list.register, action_types_list.rescued) %}
                                         <option value="{{ action_type.value }}">{{ action_type.value }}</option>
                                     {% endif %}
                                 {% endfor %}

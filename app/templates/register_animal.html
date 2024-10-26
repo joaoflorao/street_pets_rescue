@@ -20,7 +20,7 @@
         </h4>
     </div>
     <div class="card-body animal-card">
-        <form action="/animal/register" method="POST"
+        <form action="/animal/register" method="POST" enctype="multipart/form-data"
               onsubmit="return confirmSubmit(event, 'Deseja Cadastrar o animal?');">
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -125,12 +125,13 @@
                 </div>
             </div>
             <div class="form-row">
-                <!--<div class="form-group col-md-6">
+                <div class="form-group col-md-6">
                     <label for="animal_image" class="form-label required-field">
                         Imagem do Animal
                     </label>
-                    <input type="file" class="form-control" id="animal_image" name="nAnimalImage" accept="image/*" required>
-                </div>-->
+                    <input type="file" class="form-control" id="animal_image"
+                           name="nAnimalImage" accept="image/*" required onchange="checkFileSize()">
+                </div>
                 <div class="form-group col-md-6">
                     <label for="rescue_date" class="form-label required-field">
                         Data do Resgate

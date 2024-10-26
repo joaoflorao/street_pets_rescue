@@ -56,7 +56,7 @@ function toggleStatusInput() {
     let statusSelect = document.getElementById("status");
 
     statusSelectGroup.style.display = "none";
-    if (actionType === "Alteração de status") {
+    if (actionType === "Alteração de status" || actionType === "Devolução de animal adotado") {
         statusSelect.required = true;
         statusSelectGroup.style.display = "block";
     }
@@ -82,4 +82,16 @@ function confirmSubmit(event, msgText) {
             event.target.submit();
         }
     });
+}
+
+function checkFileSize() {
+    const fileInput = document.getElementById('animal_image');
+    const file = fileInput.files[0];
+    const maxSize = 25 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+        alert('O arquivo deve ter no máximo 25 MB.');
+        return false;
+    }
+    return true;
 }

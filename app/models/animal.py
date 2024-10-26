@@ -1,8 +1,11 @@
+from encodings.base64_codec import base64_encode
+
 from app.services import db
 from flask_login import UserMixin
 from datetime import datetime
 from sqlalchemy import Enum as SqlEnum
 from .animal_status import AnimalStatus
+import base64
 
 
 class Animal(db.Model):
@@ -21,6 +24,7 @@ class Animal(db.Model):
     status = db.Column(SqlEnum(AnimalStatus))
     rescue_date = db.Column(db.Date)
     registration_date = db.Column(db.Date)
+    animal_image = db.Column(db.LargeBinary)
 
     def __init__(
         self,
@@ -34,7 +38,8 @@ class Animal(db.Model):
         continuous_treatments,
         special_needs,
         status,
-        rescue_date
+        rescue_date,
+        animal_image
     ):
         self.name = name
         self.animal_species = animal_species
@@ -48,6 +53,11 @@ class Animal(db.Model):
         self.status = AnimalStatus(status)
         self.rescue_date = rescue_date
         self.registration_date = datetime.now()
+        self.animal_image = animal_image
+
+    @property
+    def image_base64(self):
+        return base64.b64encode(self.animal_image).decode("utf-8")
 
     users = db.relationship("User", secondary="user_animal", back_populates="animals")
     location_history = db.relationship("AnimalHistory", back_populates="animals_reference",
