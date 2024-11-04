@@ -24,8 +24,6 @@ class User(db.Model, UserMixin):
     registration_date = db.Column(db.Date)
     birth_date = db.Column(db.Date)
 
-    animals = db.relationship("Animal", secondary="user_animal", back_populates="users")
-
     def __init__(self, name, email, password, birth_date):
         self.name = name
         self.email = email
@@ -41,3 +39,5 @@ class User(db.Model, UserMixin):
     def check_password(self, stored_password, entered_password, enc_type="utf-8"):
         stored_hash_bytes = stored_password.encode(enc_type)
         return bcrypt.checkpw(entered_password.encode(enc_type), stored_hash_bytes)
+
+    animals = db.relationship("Animal", secondary="user_animal", back_populates="users")

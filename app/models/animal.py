@@ -1,5 +1,3 @@
-from encodings.base64_codec import base64_encode
-
 from app.services import db
 from flask_login import UserMixin
 from datetime import datetime
