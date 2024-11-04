@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+    db:
+        image: postgres:15
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        ports:
+            - "${DB_PORT}:${CONTAINER_DB_PORT}"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - mynetwork
+
+    web:
+        build: .
+        command: ["python3", "main.py"]
+        ports:
+            - "${APP_PORT}:${CONTAINER_APP_PORT}"
+        environment:
+            - DATABASE_URL=${DATABASE_URL}
+            - SECRET_KEY=${SECRET_KEY_APPLICATION}
+        networks:
+            - mynetwork
+        depends_on:
+            -   db
+
+networks:
+    mynetwork:
+        driver: bridge
+
+volumes:
+    postgres_data:
