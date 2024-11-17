@@ -11,6 +11,11 @@ bp = Blueprint("animal_history", __name__)
 @login_required
 def history():
     try:
+        # Block users without permission
+        if not (current_user.is_admin() or current_user.is_protector()):
+            flash("Você não tem permissão ver o histórico do animal!", "warning")
+            return redirect(url_for("animal.animals_list"))
+
         action_types_list = animal_history_service.get_event_types()
         status_list = animal_service.get_status_list()
 
@@ -35,6 +40,11 @@ def history():
 @login_required
 def register_location():
     try:
+        # Block users without permission
+        if not (current_user.is_admin() or current_user.is_protector()):
+            flash("Você não tem permissão ver o histórico do animal!", "warning")
+            return redirect(url_for("animal.animals_list"))
+
         data = request.form
         action_types_list = animal_history_service.get_event_types()
         status_list = animal_service.get_status_list()
@@ -50,12 +60,14 @@ def register_location():
         event_date = data.get("nEventDate")
         animal_new_status = data.get("nAnimalStatus")
 
+        # Update animal status
         event_description = description
         animal = animal_service.get_animal_by_id(animal_id)
         if animal_new_status:
             animal_service.update_animal_status(animal_id, animal_new_status)
             event_description = f"Animal {animal_new_status}. {description}"
 
+        # Add animal events
         animal_history_service.add_animal_event_history(animal_id, action_type, event_description, event_date)
         animal_history = animal_history_service.get_animal_history(animal_id)
 

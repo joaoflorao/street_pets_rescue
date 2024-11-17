@@ -13,6 +13,11 @@ bp = Blueprint("animal", __name__)
 @login_required
 def register():
     try:
+        # Block users without permission
+        if not (current_user.is_admin() or current_user.is_protector()):
+            flash("Você não tem permissão para cadastrar animais!", "warning")
+            return redirect(url_for("animal.animals_list"))
+
         status_list = animal_service.get_status_list()
         if request.method == "GET":
             return render_template("register_animal.html", status_list=status_list)
@@ -31,6 +36,7 @@ def register():
         rescue_date = data.get("nRescueDate")
         animal_image = request.files["nAnimalImage"]
 
+        # Animal register
         new_animal = animal_service.register_animal(
             animal_name, animal_type, animal_sex, animal_size, bool(animal_adapt),
             characteristics, health_needs, continuous_treatments,
@@ -42,6 +48,7 @@ def register():
         register_status = "Animal cadastrado"
         rescue_status = "Animal resgatado"
 
+        # Add animal events history
         animal_history_service.add_animal_event_history(animal_id, EventType.register.value,
                                                         register_status, datetime.utcnow())
         animal_history_service.add_animal_event_history(animal_id, EventType.rescued.value,
@@ -70,6 +77,7 @@ def animals_list():
             animals_list = animal_service.get_animals_by_user_preference(custom_filter, animal_status)
             return render_template("list_animal.html", animals_list=animals_list, status_list=status_list)
 
+        # Get user preferences
         animal_species = data.get("nSpecies")
         animal_size = data.get("nSize")
         animal_sex = data.get("nSex")
@@ -78,6 +86,7 @@ def animals_list():
         tutor_owns_animals = data.get("nHaveAnimals", type=int)
         tutor_has_time_availability = data.get("nTimeAvailability", type=int)
 
+        # Filter user preferences
         user_preferences_filter = {
             "animal_species": animal_species,
             "animal_size": animal_size,
@@ -126,15 +135,22 @@ def animal_detail():
 @login_required
 def adopt_animal():
     try:
+        if not current_user.is_adopter():
+            flash("Somente usuários adotantes podem adotar animais!", "warning")
+            return redirect(url_for("animal.animal_detail"))
+
         animal_id = int(session['animal_id'])
 
         user_filter = session.get("user_preferences_filter")
         animal = animal_service.get_animal_by_id(animal_id)
+
+        # Check animal status
         if animal.status.value != "Disponivel":
             message = f"O animal não está disponível para adoção ou já foi adotado por outra pessoa!"
             flash(message, "warning")
             return render_template("detail_animal.html", animal=animal)
 
+        # Check compatibility between animal and owner
         user_animals_list = user_service.get_animals_by_user(current_user.id)
         tutor_owns_animals = user_filter.get("tutor_owns_animals")
         if not animal.animal_adapt and (user_animals_list or tutor_owns_animals):
@@ -142,6 +158,7 @@ def adopt_animal():
             flash(message, "warning")
             return render_template("detail_animal.html", animal=animal)
 
+        # Check owner time availability
         tutor_has_time_availability = user_filter.get("tutor_time_availability")
         if not tutor_has_time_availability and animal.continuous_treatments:
             message = f"Esse animal exige cuidados constantes e você não possui tempo livre!"

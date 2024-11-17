@@ -2,6 +2,7 @@ from app.models.user import User, user_animal_table
 from app.models.animal import Animal
 from .animal_history_repository import AnimalHistoryRepository
 from app.models.animal_status import AnimalStatus
+from app.models.user_type import UserType
 from app.models.event_type import EventType
 from app.repositories.utils import handle_query_error
 from datetime import datetime
@@ -24,6 +25,9 @@ class UserRepository:
         except Exception as e:
             self.session.rollback()
             raise e
+
+    def get_user_types_list(self):
+        return UserType
 
     @handle_query_error
     def get_animals_by_user(self, user_id):

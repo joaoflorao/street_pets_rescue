@@ -12,12 +12,22 @@
                         Início
                     </a>
                 </li>
+                {% if current_user.is_protector() %}
                 <li class="nav-item">
                     <a class="nav-link {{ 'active' if request.endpoint == 'animal.register' }}"
                        href="/animal/register">
                         Cadastrar Animal
                     </a>
                 </li>
+                {% endif %}
+                {% if current_user.is_admin() %}
+                <li class="nav-item">
+                    <a class="nav-link {{ 'active' if request.endpoint == 'user.register' }}"
+                       href="/user/register">
+                        Cadastrar novo usuário
+                    </a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/user/logout">
                         Sair

@@ -40,7 +40,7 @@
                 Voltar
             </button>
             <div>
-                {% if animal.status == animal.status.available %}
+                {% if animal.status == animal.status.available and current_user.is_adopter() %}
                     <form action="/animal/adopt" method="POST" class="d-inline" onsubmit="return confirmSubmit(event, 'Deseja adotar o animal?');">
                         <button type="submit" class="btn btn-success">
                             Adotar
@@ -49,12 +49,14 @@
                     </form>
                 {% endif %}
 
+                {% if (current_user.is_protector() or current_user.is_admin()) %}
                 <form action="/animal_history/history" method="POST" class="d-inline">
                     <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
                     <button type="submit" class="btn btn-primary">
                         Histórico do Animal
                     </button>
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>
