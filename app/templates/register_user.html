@@ -1,7 +1,9 @@
 <title>Cadastre-se</title>
 {% extends 'base.html' %}
 
-{% include 'navbar.html' %}
+{% if not current_user.is_anonymous %}
+    {% include 'navbar.html' %}
+{% endif %}
 
 {% block conteudo %}
 <div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3">
@@ -64,8 +66,10 @@
                 <select class="form-select" id="user_type" name="nUserType" required>
                     <option value="" disabled selected>Selecione o tipo de usuário</option>
                     {% for type in user_types_list %}
-                        {% if not current_user.is_anonymous and current_user.is_admin %}
-                            <option value="{{ type.value }}">{{ type.value }}</option>
+                        {% if not current_user.is_anonymous %}
+                            {% if current_user.is_admin() %}
+                                <option value="{{ type.value }}">{{ type.value }}</option>
+                            {% endif %}
                         {% else %}
                             {% if type.value != 'Administrador' %}
                                 <option value="{{ type.value }}">{{ type.value }}</option>
