@@ -12,6 +12,14 @@
                         Início
                     </a>
                 </li>
+                {% if current_user.is_adopter() %}
+                <li class="nav-item">
+                    <a class="nav-link {{ 'active' if request.endpoint == 'animal.user_animal_report' }}"
+                       href="/animal/report">
+                        Meus Animais
+                    </a>
+                </li>
+                {% endif %}
                 {% if current_user.is_protector() %}
                 <li class="nav-item">
                     <a class="nav-link {{ 'active' if request.endpoint == 'animal.register' }}"

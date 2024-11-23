@@ -67,6 +67,7 @@ def register():
 @login_required
 def animals_list():
     try:
+        session.page_title = "Vitrine de animais"
         data = request.form
         status_list = animal_service.get_status_list()
 
@@ -75,7 +76,9 @@ def animals_list():
             custom_filter = session.get("user_preferences_filter")
 
             animals_list = animal_service.get_animals_by_user_preference(custom_filter, animal_status)
-            return render_template("list_animal.html", animals_list=animals_list, status_list=status_list)
+            qtde_animals = len(animals_list)
+            return render_template("list_animal.html", animals_list=animals_list,
+                                   status_list=status_list, qtde_animals=qtde_animals)
 
         # Get user preferences
         animal_species = data.get("nSpecies")
@@ -99,7 +102,9 @@ def animals_list():
         session['user_preferences_filter'] = user_preferences_filter
 
         animals_list = animal_service.get_animals_by_user_preference(user_preferences_filter, animal_status)
-        return render_template("list_animal.html", animals_list=animals_list, status_list=status_list)
+        qtde_animals = len(animals_list)
+        return render_template("list_animal.html", animals_list=animals_list,
+                               status_list=status_list, qtde_animals=qtde_animals)
     except Exception as e:
         message_error = "Erro ao listar os animais!"
         app.logger.error("%s /error: %s", message_error, e)
@@ -174,3 +179,19 @@ def adopt_animal():
         app.logger.error("%s /error: %s", message_error, e)
         flash(message_error, "danger")
         return redirect(url_for("animal.animal_detail"))
+
+@bp.route("/report", methods=["GET"])
+@login_required
+def user_animal_report():
+    try:
+        animals_list = user_service.get_animals_by_user(current_user.id)
+
+        qtde_animals = len(animals_list)
+        session.page_title = "Meus animais"
+
+        return render_template("list_animal.html", **locals())
+    except Exception as e:
+        message_error = "Erro ao consultar os animais do adotante!"
+        app.logger.error("%s /error: %s", message_error, e)
+        flash(message_error, "danger")
+        return redirect(url_for("animal.animals_list"))
