@@ -11,8 +11,11 @@ bp = Blueprint("animal_history", __name__)
 @login_required
 def history():
     try:
+        animal_id = int(session['animal_id'])
+        animal = animal_service.get_animal_by_id(animal_id)
+
         # Block users without permission
-        if not (current_user.is_admin() or current_user.is_protector()):
+        if not (current_user.is_admin() or current_user.is_protector() or animal in current_user.animals):
             flash("Você não tem permissão ver o histórico do animal!", "warning")
             return redirect(url_for("animal.animals_list"))
 
@@ -40,8 +43,11 @@ def history():
 @login_required
 def register_location():
     try:
+        animal_id = int(session['animal_id'])
+        animal = animal_service.get_animal_by_id(animal_id)
+
         # Block users without permission
-        if not (current_user.is_admin() or current_user.is_protector()):
+        if not (current_user.is_admin() or current_user.is_protector() or animal in current_user.animals):
             flash("Você não tem permissão ver o histórico do animal!", "warning")
             return redirect(url_for("animal.animals_list"))
 

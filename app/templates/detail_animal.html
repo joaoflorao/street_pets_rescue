@@ -49,7 +49,7 @@
                     </form>
                 {% endif %}
 
-                {% if (current_user.is_protector() or current_user.is_admin()) %}
+                {% if (current_user.is_protector() or current_user.is_admin() or animal in current_user.animals) %}
                 <form action="/animal_history/history" method="POST" class="d-inline">
                     <input type="hidden" name="nAnimalId" value="{{ animal.id }}">
                     <button type="submit" class="btn btn-primary">
