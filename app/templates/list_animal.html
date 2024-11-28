@@ -155,7 +155,7 @@
                                     <label for="status" class="form-label">
                                         Status
                                     </label>
-                                    <select class="form-control" id="status" name="nAnimalStatus" required>
+                                    <select class="form-control" id="status" name="nAnimalStatus">
                                         <option value="" selected disabled>Selecione o status do animal...</option>
                                             {% for status in status_list %}
                                                 <option value="{{ status.value }}">{{ status.value }}</option>
@@ -175,8 +175,14 @@
         <!-- Lista de Animais -->
         <div class="container card-container">
             <div class="row">
+                {% if current_user.is_adopter() and animals_list|length == 0 %}
+                    <div class="col">
+                        <p>Você ainda não adotou nenhum animal.</p>
+                    </div>
+                {% endif %}
                 {% for animal in animals_list %}
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <p>{{ loop.index }}</p>
                         <form action="/animal/detail" method="post">
                             <div class="card animal-card">
                                 <img src="data:image/jpeg;base64,{{ animal.image_base64 }}"
