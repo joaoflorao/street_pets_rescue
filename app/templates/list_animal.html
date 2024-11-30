@@ -180,9 +180,9 @@
                         <p>Você ainda não adotou nenhum animal.</p>
                     </div>
                 {% endif %}
-                {% for animal in animals_list %}
+                {% for animal, score in animals_list %}
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <p>{{ loop.index }}</p>
+                        <p>{{ loop.index }} - {{ score }} pts</p>
                         <form action="/animal/detail" method="post">
                             <div class="card animal-card">
                                 <img src="data:image/jpeg;base64,{{ animal.image_base64 }}"

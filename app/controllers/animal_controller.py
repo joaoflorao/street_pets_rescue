@@ -189,7 +189,7 @@ def user_animal_report():
         qtde_animals = len(animals_list)
         session.page_title = "Meus animais"
 
-        return render_template("list_animal.html", **locals())
+        return render_template("user_animals_list.html", **locals())
     except Exception as e:
         message_error = "Erro ao consultar os animais do adotante!"
         app.logger.error("%s /error: %s", message_error, e)
