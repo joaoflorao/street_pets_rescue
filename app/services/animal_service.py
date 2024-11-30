@@ -16,7 +16,7 @@ class AnimalService:
             animals_with_score.append((animal, animal_score))
 
         animals_with_score.sort(key=lambda x: x[1], reverse=True)
-        animals_list = [animal for animal, score in animals_with_score]
+        animals_list = [[animal, score] for animal, score in animals_with_score]
 
         return animals_list
 
